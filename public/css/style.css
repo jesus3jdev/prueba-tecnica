@@ -1,0 +1,12 @@
+
+ .dropzone {
+        min-height: 400px;
+        border-right: 2px dashed #ccc;
+        background: #f9f9f9;
+    }
+    .card[draggable="true"] {
+        cursor: grab;
+    }
+    .dropzone.dragover {
+        background: #e0e7ff;
+    }

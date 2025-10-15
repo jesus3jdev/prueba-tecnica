@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'admin',
     ];
 
 
@@ -30,4 +30,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /*Definimos la relación 1:N entre usuario y tareas. En esta linea creamos la función
+    que nos devolverá todas las tareas de un usuario*/
+    public function tareas()
+    {
+
+        return $this->hasMany(Tarea::class);
+
+    }
+
 }
