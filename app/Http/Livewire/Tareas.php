@@ -12,9 +12,19 @@ class Tareas extends Component
 
     public $tareasUsuario;
     public $usuariologueado;
+    public $titulo;
+    public $descripcion;
+    public $visibilidadInputTitulo = "none";
+    public $visibilidadTitulo = "block";
+    public $visibilidadTextareaDescripcion = "none";
+    public $visibilidadDescripcion = "block";
+    public $visibilidadbotonGuardar = "none";
+    public $visibilidadbotonCancelar = "none";
 
-    //Con esta linea declaramos el listener que escuchará al evento que emitamos al mover y soltar una tarea
+    //Con esta linea declaramos el listener que escuchará al evento que emitimos al mover y soltar una tarea
     protected $listeners = ['eventoActualizarEstado' => 'actualizarEstado'];
+
+    public $estados = ['Pendiente', 'En progreso', 'Completado'];
 
     public function mount()
     {
@@ -25,7 +35,7 @@ class Tareas extends Component
 
     public function actualizarEstado($tareaId, $nuevoEstado)
     {
-        /*Comprobamos que la tarea que hemos movido exista, posteriormente cambiamos su estamos
+        /*Comprobamos que la tarea que hemos movido exista, posteriormente cambiamos su estado y 
         volvemos a pintar todas las tareas del usuario con los valores actualizados*/
         $tarea = Tarea::find($tareaId);
         if ($tarea) {
@@ -34,6 +44,45 @@ class Tareas extends Component
             $this->mount();
         }
     }
+
+    public function visibilidadEditarCampo($id,$campo){
+        /*Asignamos a las variables los valores de la BBDD para que nos aparezca a la hora de editar el campo.
+        Además mostramos botones Cancelar y Guardar.*/
+        $this->titulo = Tarea::find($id)->titulo;
+        $this->descripcion = Tarea::find($id)->descripcion;
+        $this->visibilidadbotonCancelar = "inline";
+        $this->visibilidadbotonGuardar = "inline";
+        
+        /*Mostramos los campos editables al pinchar*/
+        if($campo == "titulo"){
+            $this->visibilidadInputTitulo = "block";
+            $this->visibilidadTitulo = "none";  
+ 
+        }
+
+        if($campo == "descripcion"){
+            $this->visibilidadTextareaDescripcion = "block";
+            $this->visibilidadDescripcion = "none";  
+        }
+ 
+    }
+
+      public function editarCampos($id){
+        /*Buscamos la tarea a editar, asignamos los nuevos valores, guardamos y ocultamos botones.*/
+        $tarea = Tarea::find($id);
+        if ($tarea) {
+            $tarea->titulo = $this->titulo;
+            $tarea->descripcion = $this->descripcion;
+            $tarea->save();
+            $this->mount();
+
+            $this->visibilidadInputTitulo = "none";
+            $this->visibilidadTitulo = "block"; 
+            $this->visibilidadTextareaDescripcion = "none";
+            $this->visibilidadDescripcion = "block";
+            $this->visibilidadbotonGuardar = "none";
+        }
+      }
 
 
     public function render()

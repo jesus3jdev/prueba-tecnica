@@ -36,7 +36,6 @@
         </div>
 
         @livewireScripts
-        <script src="//unpkg.com/alpinejs" defer></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
     </body>
 </html>
