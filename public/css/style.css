@@ -1,6 +1,6 @@
 
  .dropzone {
-        min-height: 400px;
+        min-height: 600px;
         overflow-y: scroll;
         scrollbar-width: thin;
         border-right: 2px solid #ccc;

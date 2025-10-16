@@ -12,6 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
+        <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
@@ -37,5 +38,6 @@
 
         @livewireScripts
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('js/font-awesome.js')}}"></script>
     </body>
 </html>

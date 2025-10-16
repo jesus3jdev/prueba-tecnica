@@ -80,8 +80,20 @@ class Tareas extends Component
             $this->visibilidadTitulo = "block"; 
             $this->visibilidadTextareaDescripcion = "none";
             $this->visibilidadDescripcion = "block";
+            $this->visibilidadbotonCancelar = "none";
             $this->visibilidadbotonGuardar = "none";
         }
+      }
+
+
+      public function cancelarEdicion(){
+        /*Ocultamos los campos editables y botones*/
+        $this->visibilidadInputTitulo = "none";
+        $this->visibilidadTitulo = "block"; 
+        $this->visibilidadTextareaDescripcion = "none";
+        $this->visibilidadDescripcion = "block";
+        $this->visibilidadbotonGuardar = "none";
+        $this->visibilidadbotonCancelar = "none";
       }
 
 
