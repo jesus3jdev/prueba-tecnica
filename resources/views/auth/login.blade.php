@@ -43,7 +43,7 @@
                 {{ __('Registrarse') }}
             </a>
 
-            <x-primary-button class="ml-3">
+            <x-primary-button class="ml-3" style="background-color: #e5425b;">
                 {{ __('Iniciar Sesión') }}
             </x-primary-button>
 
