@@ -1,7 +1,7 @@
 <div>
 
 <!-- Botón para agregar una nueva tarea (Por defecto en estado 'Pendiente')-->
-<button type="button" class="btn btn-secondary mb-5"><i class="fa-solid fa-square-plus"></i> Crear nueva tarea</button>
+<button type="button" class="btn btn-secondary mb-5" wire:click="mostrarTareaVacia()"><i class="fa-solid fa-square-plus"></i> Crear nueva tarea</button>
 
 <div class="row">
 
@@ -23,44 +23,39 @@
                     <div class="alert alert-warning" role="alert">No hay tareas en este estado</div>
                 @endif
 
+                <!-- Creamos una card vacía para mostrar y poder rellenar cuando pulsemos en -Crear nueva tarea-
+                 por defecto en estado pendiente -->
+                @if($estado == "Pendiente")
+                     <div class="card mt-5" style="display:{{$visibilidadCrearTarea}}">
+                            <input class="card-header"  type="text" wire:model="tituloTareaCrear" >
+                            @error('tituloTareaCrear')<p class="text-danger text-sm">{{ $message }}</p> @enderror
+                        <div class="card-body">
+                            <textarea class="card-title text-start" wire:model="descripcionTareaCrear"></textarea>
+                            @error('descripcionTareaCrear') <p class="text-danger text-sm">{{ $message }}</p> @enderror
+                            <p class="card-text text-start mt-4 text-sm"><strong>Estado (por defecto):</strong>&nbsp;Pendiente</p>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-success card-link" wire:click="crearTarea()" >Crear tarea</button>
+                            <button type="button" class="btn btn-warning card-link" wire:click="ocultarEdicionTareaNueva()" >Cancelar</button>
+                        </div>
+                    </div>
+                @endif
+
+
                 <!--Recorremos las tareas correspondientes a cada estado -->
                 @foreach($tareasUsuario->where('estado', $estado) as $tarea)
 
-                    <div
-                        class="card mt-5"
-                        draggable="true"
-                        id="tarea-{{ $tarea->id }}"
-                        ondragstart="event.dataTransfer.setData('tarea-id', '{{ $tarea->id }}')"
-                    >
-                        <h5 class="card-header" wire:click="visibilidadEditarCampo('{{$tarea->id}}','titulo')" style="display:{{$visibilidadTitulo}}">{{ $tarea->titulo }}</h5>
-                        <input class="card-header"  type="text" wire:model="titulo" value="{{$tarea->titulo}}" style="display:{{$visibilidadInputTitulo}}">
-                        <div class="card-body">
-                            <p class="card-title text-start" wire:click="visibilidadEditarCampo('{{$tarea->id}}','descripcion')" style="display:{{$visibilidadDescripcion}}">{{ $tarea->descripcion }}</p>
-                            <textarea class="card-title text-start" wire:model="descripcion" style="display:{{$visibilidadTextareaDescripcion}}">{{ $tarea->descripcion }}</textarea>
-                            <p class="card-text text-start mt-4 text-sm"><strong>Estado:</strong>&nbsp;{{ $tarea->estado}}</p>
-                            <p class="card-text text-start text-sm"><strong>Creada:</strong>&nbsp;{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $tarea->created_at)->addHour(2)->format('d-m-Y - H:i')}}</p>
-                            <p class="card-text text-start text-sm"><strong>Modificada:</strong>&nbsp;{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $tarea->updated_at)->addHour(2)->format('d-m-Y - H:i')}}</p>
-                        </div>
-                        <div class="card-body">
-                            <button type="button" class="btn btn-success card-link" wire:click="editarCampos('{{$tarea->id}}')" style="display: {{$visibilidadbotonGuardar}}">Guardar</button>
-                            <button type="button" class="btn btn-warning card-link" wire:click="cancelarEdicion()"  style="display: {{$visibilidadbotonCancelar}}">Cancelar</button>
-                            <button type="button" class="btn btn-danger card-link" >Eliminar</button>
-                        </div>
-                    </div>
+
+                    <!--Anidamos componente Livewire para poder realizar las acciones necesarias
+                    (Editar y Eliminar) por cada tarea-->
+                      @livewire('card-tarea', ['tarea' => $tarea], key($tarea->id))
+
+
                 @endforeach
             </div>
         </div>
     @endforeach
 </div>
 
-<script>
-    function handleDrop(event, nuevoEstado) {
-    event.preventDefault();
-    const tareaId = event.dataTransfer.getData('tarea-id');
-    if (tareaId) {
-        Livewire.emit('eventoActualizarEstado', tareaId, nuevoEstado);
-    }
-}
-</script>
 
 </div>
