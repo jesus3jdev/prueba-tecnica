@@ -26,12 +26,17 @@ class CardTarea extends Component
 
     public function actualizarEstado($tareaId, $nuevoEstado)
     {
-        /*Comprobamos que la tarea que hemos movido exista, posteriormente cambiamos su estado y 
-        volvemos a pintar todas las tareas del usuario con los valores actualizados*/
+        /*Comprobamos que la tarea que hemos movido exista, posteriormente cambiamos su estado en bbdd y en el objeto,
+         y volvemos a pintar todas las tareas del usuario con los valores actualizados*/
         $tarea = Tarea::find($tareaId);
+
         if ($tarea) {
             $tarea->estado = $nuevoEstado;
             $tarea->save();
+
+            /*Refrescamos la instancia del modelo para que no utilice la vieja (!!Importante para que actualice
+            los valores de las propiedades del componente CardTarea tras actualizar)*/
+            $this->tarea = $tarea->fresh();
 
         /*Creamos registro de edición de estado*/
         $registro= new Registro;
@@ -40,11 +45,12 @@ class CardTarea extends Component
         $registro->save();
 
         /*Emitimos evento para que el tablero se actualice sin recargar la página*/
-        $this->emit('refrescarTareas');
-  
+        $this->emitUp('refrescarTareas');
+
         }
     }
 
+    
 
      public function visibilidadEditarCampo($campo){
         /*Asignamos a las variables los valores de la BBDD para que nos aparezca a la hora de editar el campo.

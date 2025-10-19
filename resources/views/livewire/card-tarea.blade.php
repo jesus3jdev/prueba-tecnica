@@ -65,26 +65,5 @@
 
 
 
-<script>
-    function handleDrop(event, nuevoEstado) {
-        event.preventDefault();
-        let tareaId = event.dataTransfer.getData('tarea-id');
-        if (tareaId) {
-            Livewire.emit('eventoActualizarEstado', tareaId, nuevoEstado);
-        }
-    }
-
-    document.addEventListener('cerrarModalEliminar', function (e) {
-        let id = e.detail.id;
-        let modalEliminar = document.getElementById('modalEliminarTarea-' + id);
-        if (!modalEliminar) return;
-
-        // Cerrar con la API de Bootstrap
-        let modalInstancia = bootstrap.Modal.getInstance(modalEliminar) || new bootstrap.Modal(modalEliminar);
-        modalInstancia.hide();
-    });
-
-    
-</script>
 
 </div>

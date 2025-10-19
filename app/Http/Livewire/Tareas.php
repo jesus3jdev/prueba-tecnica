@@ -23,13 +23,13 @@ class Tareas extends Component
     protected $listeners = ['refrescarTareas' => 'mount'];
 
 
-
     public function mount()
     {
         //Obtenemos el usuario logueado y todas sus tareas ordenadas de más actuales a más antiguas
         $this->usuariologueado= Auth::user();
         $this->tareasUsuario =  User::find($this->usuariologueado->id)->tareas()->get()->sortByDesc('created_at');
     }
+
 
 
     public function mostrarTareaVacia(){
@@ -66,7 +66,6 @@ class Tareas extends Component
         $registro->save();
 
         $this->mount();
-
 
         session()->flash('mensajeTareaCreada', 'Tarea creada correctamente.');
     }
