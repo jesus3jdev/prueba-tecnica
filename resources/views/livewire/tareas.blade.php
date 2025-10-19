@@ -2,6 +2,14 @@
 
 <!-- Botón para agregar una nueva tarea (Por defecto en estado 'Pendiente')-->
 <button type="button" class="btn btn-secondary mb-5" wire:click="mostrarTareaVacia()"><i class="fa-solid fa-square-plus"></i> Crear nueva tarea</button>
+ 
+
+@if (session()->has('mensajeTareaCreada'))
+<div class="alert alert-success  alert-dismissible fade show mensajeCreacionTarea" role="alert">
+    {{ session('mensajeTareaCreada') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+</div>
+@endif
 
 <div class="row">
 

@@ -16,3 +16,10 @@
 .cursor:hover{
     cursor: pointer;
 }
+
+.mensajeCreacionTarea{
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    z-index: 999;
+}

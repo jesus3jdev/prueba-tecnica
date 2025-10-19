@@ -66,6 +66,9 @@ class Tareas extends Component
         $registro->save();
 
         $this->mount();
+
+
+        session()->flash('mensajeTareaCreada', 'Tarea creada correctamente.');
     }
 
 
