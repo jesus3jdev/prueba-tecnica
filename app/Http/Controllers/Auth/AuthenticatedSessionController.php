@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         /*Creamos registro de inicio de sesión*/
         $registro= new Registro;
         $registro->user_id= Auth::user()->id;
-        $registro->accion= "Inicio de sesión";
+        $registro->accion= "Inicio de sesión correcto";
         $registro->save();
 
         return redirect()->intended(RouteServiceProvider::HOME);

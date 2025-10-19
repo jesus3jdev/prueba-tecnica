@@ -10,7 +10,17 @@
                         <div class="card-body">
                             <p class="card-title text-start" wire:click="visibilidadEditarCampo('descripcion')" style="display:{{$visibilidadDescripcion}}">{{ $tarea->descripcion }}</p>
                             <textarea class="card-title text-start" wire:model="descripcion" style="display:{{$visibilidadTextareaDescripcion}}">{{ $tarea->descripcion }}</textarea>
-                            <p class="card-text text-start mt-4 text-sm"><strong>Estado:</strong>&nbsp;{{ $tarea->estado}}</p>
+                            
+                            @if($tarea->estado == "Pendiente")
+                                <p class="card-text text-start mt-4 text-sm"><strong>Estado:</strong>&nbsp;<span style="color:red;">{{ $tarea->estado}}<span></p>
+                            @endif
+                            @if($tarea->estado == "En progreso")
+                                <p class="card-text text-start mt-4 text-sm"><strong>Estado:</strong>&nbsp;<span style="color:blue;">{{ $tarea->estado}}<span></p>
+                            @endif
+                             @if($tarea->estado == "Completado")
+                                <p class="card-text text-start mt-4 text-sm"><strong>Estado:</strong>&nbsp;<span style="color:green;">{{ $tarea->estado}}<span></p>
+                            @endif
+
                             <p class="card-text text-start text-sm"><strong>Creada:</strong>&nbsp;{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $tarea->created_at)->addHour(2)->format('d-m-Y - H:i')}}</p>
                             <p class="card-text text-start text-sm"><strong>Modificada:</strong>&nbsp;{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $tarea->updated_at)->addHour(2)->format('d-m-Y - H:i')}}</p>
                         </div>
