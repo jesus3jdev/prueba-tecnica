@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Registro;
 
 class RegisteredUserController extends Controller
 {
@@ -45,6 +46,12 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        /*Creamos registro de nuevo usuario*/
+        $registro= new Registro;
+        $registro->user_id= $user->id;
+        $registro->accion= "Creación de nuevo usuario";
+        $registro->save();
 
         //return redirect(RouteServiceProvider::HOME);
         return redirect('/');

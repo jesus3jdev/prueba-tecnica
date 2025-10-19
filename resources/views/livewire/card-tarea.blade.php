@@ -64,7 +64,6 @@
         }
     }
 
-
     document.addEventListener('cerrarModalEliminar', function (e) {
         let id = e.detail.id;
         let modalEliminar = document.getElementById('modalEliminarTarea-' + id);
@@ -75,6 +74,7 @@
         modalInstancia.hide();
     });
 
+    
 </script>
 
 </div>

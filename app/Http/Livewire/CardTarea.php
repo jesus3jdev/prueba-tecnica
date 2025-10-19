@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Tarea;
+use App\Models\Registro;
 
 class CardTarea extends Component
 {
@@ -31,8 +32,16 @@ class CardTarea extends Component
         if ($tarea) {
             $tarea->estado = $nuevoEstado;
             $tarea->save();
-            /*Emitimos evento para que el tablero se actualice sin recargar la página*/
-            $this->emit('refrescarTareas');
+
+        /*Creamos registro de edición de estado*/
+        $registro= new Registro;
+        $registro->user_id= $tarea->user_id;
+        $registro->accion= "Edición de estado en la tarea: " . $tarea->titulo  ." (ID: " . $tarea->id . ")";
+        $registro->save();
+
+        /*Emitimos evento para que el tablero se actualice sin recargar la página*/
+        $this->emit('refrescarTareas');
+  
         }
     }
 
@@ -68,6 +77,12 @@ class CardTarea extends Component
             $this->tarea->descripcion = ($this->descripcion != null) ? $this->descripcion : $this->tarea->descripcion;
             $this->tarea->save();
 
+            /*Creamos registro de edición de tarea*/
+            $registro= new Registro;
+            $registro->user_id= $this->tarea->user_id;
+            $registro->accion= "Edición de campos en la tarea: " . $this->tarea->titulo  ." (ID: " . $this->tarea->id . ")";
+            $registro->save();
+
             $this->visibilidadInputTitulo = "none";
             $this->visibilidadTitulo = "block"; 
             $this->visibilidadTextareaDescripcion = "none";
@@ -78,7 +93,7 @@ class CardTarea extends Component
 
 
       public function cancelarEdicion(){
-        /*Ocultamos los campos editables y botones*/
+        //Ocultamos los campos editables y botones
         $this->visibilidadInputTitulo = "none";
         $this->visibilidadTitulo = "block"; 
         $this->visibilidadTextareaDescripcion = "none";
@@ -91,8 +106,15 @@ class CardTarea extends Component
       public function eliminarTarea(){
         $id = $this->tarea->id;
         $this->tarea->delete();
+
+        /*Creamos registro de eliminación de tarea*/
+        $registro= new Registro;
+        $registro->user_id= $this->tarea->user_id;
+        $registro->accion= "Eliminación de tarea: " . $this->tarea->titulo  ." (ID: " . $this->tarea->id . ")";
+        $registro->save();
+
         $this->emit('refrescarTareas');
-        /*Lanzamos evento al navegador para cerrar la modal tras eliminar la tarea*/
+        //Lanzamos evento al navegador para cerrar la modal tras eliminar la tarea
         $this->dispatchBrowserEvent('cerrarModalEliminar', ['id' => $id]);
       }
 

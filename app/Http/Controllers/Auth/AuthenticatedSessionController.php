@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Registro;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,6 +30,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+
+        /*Creamos registro de inicio de sesión*/
+        $registro= new Registro;
+        $registro->user_id= Auth::user()->id;
+        $registro->accion= "Inicio de sesión";
+        $registro->save();
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -37,6 +45,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+
+        /*Creamos registro de cierre de sesión*/
+        $registro= new Registro;
+        $registro->user_id= Auth::user()->id;
+        $registro->accion= "Cierre de sesión";
+        $registro->save();
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

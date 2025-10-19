@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('accion');
             $table->bigInteger('user_id');
-            $table->dateTime('fecha_hora');
+            $table->timestamps();
         });
     }
 

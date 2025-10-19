@@ -36,9 +36,13 @@ class User extends Authenticatable
     que nos devolverá todas las tareas de un usuario*/
     public function tareas()
     {
-
         return $this->hasMany(Tarea::class);
+    }
 
+    /*Definimos la relación 1:N entre usuario y registros.*/
+        public function registros()
+    {
+        return $this->hasMany(Registro::class);
     }
 
 }

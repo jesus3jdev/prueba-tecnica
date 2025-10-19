@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Tarea;
+use App\Models\Registro;
 
 class Tareas extends Component
 {
@@ -18,14 +19,14 @@ class Tareas extends Component
 
     public $estados = ['Pendiente', 'En progreso', 'Completado'];
 
-    /*Evento lanzado tras mover una tarea de columna. Su función es volver a pintar el tablero.*/
+    //Evento lanzado tras mover una tarea de columna. Su función es volver a pintar el tablero.
     protected $listeners = ['refrescarTareas' => 'mount'];
 
 
 
     public function mount()
     {
-        /*Obtenemos el usuario logueado y todas sus tareas ordenadas de más actuales a más antiguas*/
+        //Obtenemos el usuario logueado y todas sus tareas ordenadas de más actuales a más antiguas
         $this->usuariologueado= Auth::user();
         $this->tareasUsuario =  User::find($this->usuariologueado->id)->tareas()->get()->sortByDesc('created_at');
     }
@@ -35,10 +36,10 @@ class Tareas extends Component
        $this->visibilidadCrearTarea = "flex";
     }
 
-    /*Creamos una nueva tarea por defecto en estado 'Pendiente'*/
+    //Creamos una nueva tarea por defecto en estado 'Pendiente'
     public function crearTarea(){
 
-        /*Validamos los campos*/
+        //Validamos los campos
         $validacion = $this->validate([
            'tituloTareaCrear' => 'required|string|max:200',
            'descripcionTareaCrear' => 'required|string',
@@ -56,7 +57,15 @@ class Tareas extends Component
        $nuevaTarea->user_id = $this->usuariologueado->id;
        $nuevaTarea->save();
        $this->ocultarEdicionTareaNueva();
-       $this->mount();
+
+       
+        /*Creamos registro de creación de tarea nueva*/
+        $registro= new Registro;
+        $registro->user_id= $this->usuariologueado->id;
+        $registro->accion= "Creación de nueva tarea: ". $nuevaTarea->titulo . " (ID: " . $nuevaTarea->id . ")";
+        $registro->save();
+
+        $this->mount();
     }
 
 
