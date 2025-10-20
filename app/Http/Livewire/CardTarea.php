@@ -83,6 +83,10 @@ class CardTarea extends Component
             $this->tarea->descripcion = ($this->descripcion != null) ? $this->descripcion : $this->tarea->descripcion;
             $this->tarea->save();
 
+            
+            /*Lanzamos mensaje al editar una tarea*/
+            session()->flash('mensajeTareaEditada', 'Tarea editada correctamente.');
+
             /*Creamos registro de edición de tarea*/
             $registro= new Registro;
             $registro->user_id= $this->tarea->user_id;

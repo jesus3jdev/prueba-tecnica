@@ -1,4 +1,12 @@
 <div>
+
+    @if (session()->has('mensajeTareaEditada'))
+    <div class="alert alert-success  alert-dismissible fade show mensajeEdicionTarea" role="alert">
+        {{ session('mensajeTareaEditada') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    @endif
+
         <div
                         class="card mt-5"
                         draggable="true"

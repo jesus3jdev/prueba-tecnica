@@ -11,6 +11,7 @@
 </div>
 @endif
 
+
 <div class="row">
 
     <!--Recorremos el array de estados y mostramos una columna para cada uno de ellos-->
