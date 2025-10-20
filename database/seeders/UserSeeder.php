@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
          User::insert([
             'name' => 'Administrador',
             'email' => 'administrador@jtsec.es',
-            'password' => Hash::make('Administrador25.'),
+            'password' => Hash::make('Administrador2025#'),
             'admin' => '1',
         ]);
     }
